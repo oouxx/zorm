@@ -37,7 +37,7 @@ import (
 	"strings"
 	"time"
 
-	"gitee.com/oouxx/zorm/decimal"
+	"github.com/oouxx/zorm/v2/decimal"
 )
 
 // FuncReadWriteStrategy 数据库的读写分离的策略,用于外部重写实现自定义的逻辑,也可以使用ctx标识,处理多库的场景,rwType=0 read,rwType=1 write
