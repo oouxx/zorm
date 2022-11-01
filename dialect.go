@@ -868,7 +868,7 @@ func getFieldTagName(field *reflect.StructField) string {
 			colName = fmt.Sprintf(`"%s"`, strings.ToUpper(colName))
 		}*/
 	// TODO dm数据库需要双引号包裹，先优先适配，后面重构
-	colName = fmt.Sprintf(`"%s"`, strings.ToLower(colName))
+	colName = fmt.Sprintf(`"%s"`, colName)
 	return colName
 }
 
