@@ -1,3 +1,3 @@
-module gitee.com/oouxx/zorm
+module github.com/oouxx/zorm
 
 go 1.13
