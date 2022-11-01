@@ -32,8 +32,8 @@ import (
 	"time"
 )
 
-//wrapPageSQL 包装分页的SQL语句
-//wrapPageSQL SQL statement for wrapping paging
+// wrapPageSQL 包装分页的SQL语句
+// wrapPageSQL SQL statement for wrapping paging
 func wrapPageSQL(dialect string, sqlstr *string, page *Page) error {
 	//新的分页方法都已经不需要order by了,不再强制检查
 	//The new paging method does not require 'order by' anymore, no longer mandatory check.
@@ -91,10 +91,10 @@ func wrapPageSQL(dialect string, sqlstr *string, page *Page) error {
 	return nil
 }
 
-//wrapInsertSQL  包装保存Struct语句.返回语句,是否自增,错误信息
-//数组传递,如果外部方法有调用append的逻辑，append会破坏指针引用，所以传递指针
-//wrapInsertSQL Pack and save 'Struct' statement. Return  SQL statement, whether it is incremented, error message
-//Array transfer, if the external method has logic to call append, append will destroy the pointer reference, so the pointer is passed
+// wrapInsertSQL  包装保存Struct语句.返回语句,是否自增,错误信息
+// 数组传递,如果外部方法有调用append的逻辑，append会破坏指针引用，所以传递指针
+// wrapInsertSQL Pack and save 'Struct' statement. Return  SQL statement, whether it is incremented, error message
+// Array transfer, if the external method has logic to call append, append will destroy the pointer reference, so the pointer is passed
 func wrapInsertSQL(ctx context.Context, typeOf *reflect.Type, entity IEntityStruct, columns *[]reflect.StructField, values *[]interface{}) (string, int, string, error) {
 	sqlstr := ""
 	insersql, valuesql, autoIncrement, pktype, err := wrapInsertValueSQL(ctx, typeOf, entity, columns, values)
@@ -112,10 +112,10 @@ func wrapInsertSQL(ctx context.Context, typeOf *reflect.Type, entity IEntityStru
 	return sqlstr, autoIncrement, pktype, err
 }
 
-//wrapInsertValueSQL 包装保存Struct语句.返回语句,没有rebuild,返回原始的InsertSQL,ValueSQL,是否自增,主键类型,错误信息
-//数组传递,如果外部方法有调用append的逻辑,传递指针,因为append会破坏指针引用
-//Pack and save Struct statement. Return  SQL statement, no rebuild, return original SQL, whether it is self-increment, error message
-//Array transfer, if the external method has logic to call append, append will destroy the pointer reference, so the pointer is passed
+// wrapInsertValueSQL 包装保存Struct语句.返回语句,没有rebuild,返回原始的InsertSQL,ValueSQL,是否自增,主键类型,错误信息
+// 数组传递,如果外部方法有调用append的逻辑,传递指针,因为append会破坏指针引用
+// Pack and save Struct statement. Return  SQL statement, no rebuild, return original SQL, whether it is self-increment, error message
+// Array transfer, if the external method has logic to call append, append will destroy the pointer reference, so the pointer is passed
 func wrapInsertValueSQL(ctx context.Context, typeOf *reflect.Type, entity IEntityStruct, columns *[]reflect.StructField, values *[]interface{}) (string, string, int, string, error) {
 	var insertsql, valuesql string
 	//自增类型  0(不自增),1(普通自增),2(序列自增) --3(触发器自增)
@@ -266,10 +266,10 @@ func wrapInsertValueSQL(ctx context.Context, typeOf *reflect.Type, entity IEntit
 
 }
 
-//wrapInsertSliceSQL 包装批量保存StructSlice语句.返回语句,是否自增,错误信息
-//数组传递,如果外部方法有调用append的逻辑，append会破坏指针引用，所以传递指针
-//wrapInsertSliceSQL Package and save Struct Slice statements in batches. Return SQL statement, whether it is incremented, error message
-//Array transfer, if the external method has logic to call append, append will destroy the pointer reference, so the pointer is passed
+// wrapInsertSliceSQL 包装批量保存StructSlice语句.返回语句,是否自增,错误信息
+// 数组传递,如果外部方法有调用append的逻辑，append会破坏指针引用，所以传递指针
+// wrapInsertSliceSQL Package and save Struct Slice statements in batches. Return SQL statement, whether it is incremented, error message
+// Array transfer, if the external method has logic to call append, append will destroy the pointer reference, so the pointer is passed
 func wrapInsertSliceSQL(ctx context.Context, dialect string, typeOf *reflect.Type, entityStructSlice []IEntityStruct, columns *[]reflect.StructField, values *[]interface{}) (string, int, error) {
 	sliceLen := len(entityStructSlice)
 	sqlstr := ""
@@ -389,10 +389,10 @@ func wrapInsertSliceSQL(ctx context.Context, dialect string, typeOf *reflect.Typ
 
 }
 
-//wrapUpdateSQL 包装更新Struct语句
-//数组传递,如果外部方法有调用append的逻辑，append会破坏指针引用，所以传递指针
-//wrapUpdateSQL Package update Struct statement
-//Array transfer, if the external method has logic to call append, append will destroy the pointer reference, so the pointer is passed
+// wrapUpdateSQL 包装更新Struct语句
+// 数组传递,如果外部方法有调用append的逻辑，append会破坏指针引用，所以传递指针
+// wrapUpdateSQL Package update Struct statement
+// Array transfer, if the external method has logic to call append, append will destroy the pointer reference, so the pointer is passed
 func wrapUpdateSQL(typeOf *reflect.Type, entity IEntityStruct, columns *[]reflect.StructField, values *[]interface{}, onlyUpdateNotZero bool) (string, error) {
 	sqlstr := ""
 	//SQL语句的构造器
@@ -465,8 +465,8 @@ func wrapUpdateSQL(typeOf *reflect.Type, entity IEntityStruct, columns *[]reflec
 	//return reBindSQL(dialect, sqlstr)
 }
 
-//wrapDeleteSQL 包装删除Struct语句
-//wrapDeleteSQL Package delete Struct statement
+// wrapDeleteSQL 包装删除Struct语句
+// wrapDeleteSQL Package delete Struct statement
 func wrapDeleteSQL(entity IEntityStruct) (string, error) {
 
 	//SQL语句的构造器
@@ -485,9 +485,9 @@ func wrapDeleteSQL(entity IEntityStruct) (string, error) {
 
 }
 
-//wrapInsertEntityMapSQL 包装保存Map语句,Map因为没有字段属性,无法完成Id的类型判断和赋值,需要确保Map的值是完整的
-//wrapInsertEntityMapSQL Pack and save the Map statement. Because Map does not have field attributes,
-//it cannot complete the type judgment and assignment of Id. It is necessary to ensure that the value of Map is complete
+// wrapInsertEntityMapSQL 包装保存Map语句,Map因为没有字段属性,无法完成Id的类型判断和赋值,需要确保Map的值是完整的
+// wrapInsertEntityMapSQL Pack and save the Map statement. Because Map does not have field attributes,
+// it cannot complete the type judgment and assignment of Id. It is necessary to ensure that the value of Map is complete
 func wrapInsertEntityMapSQL(entity IEntityMap) (string, []interface{}, bool, error) {
 	sqlstr := ""
 	insertsql, valuesql, values, autoIncrement, err := wrapInsertValueEntityMapSQL(entity)
@@ -514,9 +514,9 @@ func wrapInsertEntityMapSQL(entity IEntityMap) (string, []interface{}, bool, err
 	return sqlstr, values, autoIncrement, nil
 }
 
-//wrapInsertValueEntityMapSQL 包装保存Map语句,Map因为没有字段属性,无法完成Id的类型判断和赋值,需要确保Map的值是完整的
-//wrapInsertValueEntityMapSQL Pack and save the Map statement. Because Map does not have field attributes,
-//it cannot complete the type judgment and assignment of Id. It is necessary to ensure that the value of Map is complete
+// wrapInsertValueEntityMapSQL 包装保存Map语句,Map因为没有字段属性,无法完成Id的类型判断和赋值,需要确保Map的值是完整的
+// wrapInsertValueEntityMapSQL Pack and save the Map statement. Because Map does not have field attributes,
+// it cannot complete the type judgment and assignment of Id. It is necessary to ensure that the value of Map is complete
 func wrapInsertValueEntityMapSQL(entity IEntityMap) (string, string, []interface{}, bool, error) {
 	var insertsql, valuesql string
 	//是否自增,默认false
@@ -598,9 +598,9 @@ func wrapInsertValueEntityMapSQL(entity IEntityMap) (string, string, []interface
 	return insertsql, valuesql, values, autoIncrement, nil
 }
 
-//wrapUpdateEntityMapSQL 包装Map更新语句,Map因为没有字段属性,无法完成Id的类型判断和赋值,需要确保Map的值是完整的
-//wrapUpdateEntityMapSQL Wrap the Map update statement. Because Map does not have field attributes,
-//it cannot complete the type judgment and assignment of Id. It is necessary to ensure that the value of Map is complete
+// wrapUpdateEntityMapSQL 包装Map更新语句,Map因为没有字段属性,无法完成Id的类型判断和赋值,需要确保Map的值是完整的
+// wrapUpdateEntityMapSQL Wrap the Map update statement. Because Map does not have field attributes,
+// it cannot complete the type judgment and assignment of Id. It is necessary to ensure that the value of Map is complete
 func wrapUpdateEntityMapSQL(entity IEntityMap) (string, []interface{}, error) {
 	dbFieldMap := entity.GetDBFieldMap()
 	sqlstr := ""
@@ -660,8 +660,8 @@ func wrapUpdateEntityMapSQL(entity IEntityMap) (string, []interface{}, error) {
 	return sqlstr, values, nil
 }
 
-//wrapQuerySQL 封装查询语句
-//wrapQuerySQL Encapsulated query statement
+// wrapQuerySQL 封装查询语句
+// wrapQuerySQL Encapsulated query statement
 func wrapQuerySQL(dialect string, finder *Finder, page *Page) (string, error) {
 
 	//获取到没有page的sql的语句
@@ -679,40 +679,40 @@ func wrapQuerySQL(dialect string, finder *Finder, page *Page) (string, error) {
 	return sqlstr, err
 }
 
-//查询'order by'在sql中出现的开始位置和结束位置
-//Query the start position and end position of'order by' in SQL
+// 查询'order by'在sql中出现的开始位置和结束位置
+// Query the start position and end position of'order by' in SQL
 var orderByExpr = "(?i)\\s(order)\\s+by\\s"
 var orderByRegexp, _ = regexp.Compile(orderByExpr)
 
-//findOrderByIndex 查询order by在sql中出现的开始位置和结束位置
+// findOrderByIndex 查询order by在sql中出现的开始位置和结束位置
 // findOrderByIndex Query the start position and end position of'order by' in SQL
 func findOrderByIndex(strsql *string) []int {
 	loc := orderByRegexp.FindStringIndex(*strsql)
 	return loc
 }
 
-//查询'group by'在sql中出现的开始位置和结束位置
-//Query the start position and end position of'group by' in sql。
+// 查询'group by'在sql中出现的开始位置和结束位置
+// Query the start position and end position of'group by' in sql。
 var groupByExpr = "(?i)\\s(group)\\s+by\\s"
 var groupByRegexp, _ = regexp.Compile(groupByExpr)
 
-//findGroupByIndex 查询group by在sql中出现的开始位置和结束位置
-//findGroupByIndex Query the start position and end position of'group by' in sql
+// findGroupByIndex 查询group by在sql中出现的开始位置和结束位置
+// findGroupByIndex Query the start position and end position of'group by' in sql
 func findGroupByIndex(strsql *string) []int {
 	loc := groupByRegexp.FindStringIndex(*strsql)
 	return loc
 }
 
-//查询 from 在sql中出现的开始位置和结束位置
-//Query the start position and end position of 'from' in sql
-//var fromExpr = "(?i)(^\\s*select)(.+?\\(.+?\\))*.*?(from)"
-//感谢奔跑(@zeqjone)提供的正则,排除不在括号内的from,已经满足绝大部分场景,
-//select id1,(select (id2) from t1 where id=2) _s FROM table select的子查询 _s中的 id2还有括号,才会出现问题,建议使用CountFinder处理分页语句
+// 查询 from 在sql中出现的开始位置和结束位置
+// Query the start position and end position of 'from' in sql
+// var fromExpr = "(?i)(^\\s*select)(.+?\\(.+?\\))*.*?(from)"
+// 感谢奔跑(@zeqjone)提供的正则,排除不在括号内的from,已经满足绝大部分场景,
+// select id1,(select (id2) from t1 where id=2) _s FROM table select的子查询 _s中的 id2还有括号,才会出现问题,建议使用CountFinder处理分页语句
 var fromExpr = "(?i)(^\\s*select)(\\(.*?\\)|[^()]+)*?(from)"
 var fromRegexp, _ = regexp.Compile(fromExpr)
 
-//findFromIndexa 查询from在sql中出现的开始位置和结束位置
-//findSelectFromIndex Query the start position and end position of 'from' in sql
+// findFromIndexa 查询from在sql中出现的开始位置和结束位置
+// findSelectFromIndex Query the start position and end position of 'from' in sql
 func findSelectFromIndex(strsql *string) []int {
 	//匹配出来的是完整的字符串,用最后的FROM即可
 	loc := fromRegexp.FindStringIndex(*strsql)
@@ -760,7 +760,7 @@ func findUpdateTableName(strsql *string) []string {
 }
 
 // 从删除语句中获取表名
-//delete\\sfrom\\s(.+)where\\s(.*)
+// delete\\sfrom\\s(.+)where\\s(.*)
 var deleteExper = "(?i)^\\s*delete\\s+from\\s+(\\w+)\\s+where\\s"
 var deleteRegexp, _ = regexp.Compile(deleteExper)
 
@@ -867,6 +867,8 @@ func getFieldTagName(field *reflect.StructField) string {
 			colName = strings.ReplaceAll(colName, "\"", "")
 			colName = fmt.Sprintf(`"%s"`, strings.ToUpper(colName))
 		}*/
+	// TODO dm数据库需要双引号包裹，先优先适配，后面重构
+	colName = fmt.Sprintf(`"%s"`, strings.ToLower(colName))
 	return colName
 }
 
@@ -901,8 +903,8 @@ func wrapSQLHint(ctx context.Context, sqlstr *string) error {
 	return nil
 }
 
-//reBindSQL 包装基础的SQL语句,根据数据库类型,调整SQL变量符号,例如?,? $1,$2这样的
-//reBindSQL Pack basic SQL statements, adjust the SQL variable symbols according to the database type, such as?,? $1,$2
+// reBindSQL 包装基础的SQL语句,根据数据库类型,调整SQL变量符号,例如?,? $1,$2这样的
+// reBindSQL Pack basic SQL statements, adjust the SQL variable symbols according to the database type, such as?,? $1,$2
 func reBindSQL(dialect string, sqlstr *string, args *[]interface{}) error {
 	switch dialect {
 	case "mysql", "sqlite", "dm", "gbase", "clickhouse", "db2":
@@ -977,7 +979,7 @@ func reBindSQL(dialect string, sqlstr *string, args *[]interface{}) error {
 	return nil
 }
 
-//reUpdateFinderSQL 根据数据类型更新 手动编写的 UpdateFinder的语句,用于处理数据库兼容,例如 clickhouse的 UPDATE 和 DELETE
+// reUpdateFinderSQL 根据数据类型更新 手动编写的 UpdateFinder的语句,用于处理数据库兼容,例如 clickhouse的 UPDATE 和 DELETE
 func reUpdateSQL(dialect string, sqlstr *string) error {
 	//处理clickhouse的特殊更新语法
 	if dialect == "clickhouse" {
@@ -1055,7 +1057,7 @@ func reTDengineSQL(dialect string, sqlstr *string, args []interface{}) (*string,
 }
 */
 
-//wrapAutoIncrementInsertSQL 包装自增的自增主键的插入sql
+// wrapAutoIncrementInsertSQL 包装自增的自增主键的插入sql
 func wrapAutoIncrementInsertSQL(pkColumnName string, sqlstr *string, dialect string, lastInsertID, zormSQLOutReturningID *int64, values *[]interface{}) {
 	var sqlBuilder strings.Builder
 	sqlBuilder.Grow(len(*sqlstr) + len(pkColumnName) + 40)
@@ -1081,7 +1083,7 @@ func wrapAutoIncrementInsertSQL(pkColumnName string, sqlstr *string, dialect str
 	*sqlstr = sqlBuilder.String()
 }
 
-//getDialectFromConnection 从dbConnection中获取数据库方言,如果没有,从FuncReadWriteStrategy获取dbDao,获取dbdao.config.Dialect
+// getDialectFromConnection 从dbConnection中获取数据库方言,如果没有,从FuncReadWriteStrategy获取dbDao,获取dbdao.config.Dialect
 func getDialectFromConnection(ctx context.Context, dbConnection *dataBaseConnection, rwType int) (string, error) {
 	var dialect string
 	//dbConnection为nil,使用defaultDao
