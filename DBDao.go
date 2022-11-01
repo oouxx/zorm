@@ -37,7 +37,7 @@ import (
 	"strings"
 	"time"
 
-	"gitee.com/chunanyong/zorm/decimal"
+	"gitee.com/oouxx/zorm/decimal"
 )
 
 // FuncReadWriteStrategy 数据库的读写分离的策略,用于外部重写实现自定义的逻辑,也可以使用ctx标识,处理多库的场景,rwType=0 read,rwType=1 write
@@ -59,7 +59,7 @@ type wrapContextStringKey string
 // The key of context WithValue cannot be a basic type, such as a string, wrap it
 const contextDBConnectionValueKey = wrapContextStringKey("contextDBConnectionValueKey")
 
-//事务选项设置TxOptions,主要是设置事务的隔离级别
+// 事务选项设置TxOptions,主要是设置事务的隔离级别
 const contextTxOptionsKey = wrapContextStringKey("contextTxOptionsKey")
 
 //bug(springrain) 还缺少1对1的属性嵌套对象,sql别名查询,直接赋值的功能.
@@ -125,8 +125,8 @@ type DataSourceConfig struct {
 	SQLDB *sql.DB
 }
 
-//DBDao 数据库操作基类,隔离原生操作数据库API入口,所有数据库操作必须通过DBDao进行
-//DBDao Database operation base class, isolate the native operation database API entry,all database operations must be performed through DB Dao
+// DBDao 数据库操作基类,隔离原生操作数据库API入口,所有数据库操作必须通过DBDao进行
+// DBDao Database operation base class, isolate the native operation database API entry,all database operations must be performed through DB Dao
 type DBDao struct {
 	config     *DataSourceConfig
 	dataSource *dataSource
@@ -199,7 +199,7 @@ func (dbDao *DBDao) BindContextDBConnection(parent context.Context) (context.Con
 }
 
 // BindContextTxOptions 绑定事务的隔离级别,参考sql.IsolationLevel,如果txOptions为nil,使用默认的事务隔离级别.parent不能为空
-//需要在事务开启前调用,也就是zorm.Transaction方法前,不然事务开启之后再调用就无效了
+// 需要在事务开启前调用,也就是zorm.Transaction方法前,不然事务开启之后再调用就无效了
 func (dbDao *DBDao) BindContextTxOptions(parent context.Context, txOptions *sql.TxOptions) (context.Context, error) {
 	if parent == nil {
 		return nil, errors.New("->BindContextTxOptions-->context的parent不能为nil")
@@ -210,7 +210,7 @@ func (dbDao *DBDao) BindContextTxOptions(parent context.Context, txOptions *sql.
 }
 
 // CloseDB 关闭所有数据库连接
-//请谨慎调用这个方法,会关闭所有数据库连接,用于处理特殊场景,正常使用无需手动关闭数据库连接
+// 请谨慎调用这个方法,会关闭所有数据库连接,用于处理特殊场景,正常使用无需手动关闭数据库连接
 func (dbDao *DBDao) CloseDB() error {
 	if dbDao == nil || dbDao.dataSource == nil {
 		return errors.New("->CloseDB-->请不要自己创建dbDao,使用NewDBDao方法进行创建")
@@ -829,8 +829,8 @@ var errQueryMapFinder = errors.New("->QueryMap-->finder参数不能为nil")
 // 根据数据库字段的类型,完成从[]byte到Go类型的映射,理论上其他查询方法都可以调用此方法,但是需要处理sql.Nullxxx等驱动支持的类型
 // context必须传入,不能为空
 // QueryMap According to Finder query, encapsulate Map array
-//According to the type of database field, the mapping from []byte to Go type is completed. In theory,other query methods can call this method, but need to deal with types supported by drivers such as sql.Nullxxx
-//context must be passed in and cannot be empty
+// According to the type of database field, the mapping from []byte to Go type is completed. In theory,other query methods can call this method, but need to deal with types supported by drivers such as sql.Nullxxx
+// context must be passed in and cannot be empty
 func QueryMap(ctx context.Context, finder *Finder, page *Page) ([]map[string]interface{}, error) {
 	return queryMap(ctx, finder, page)
 }
@@ -1257,10 +1257,10 @@ var insert = func(ctx context.Context, entity IEntityStruct) (int, error) {
 
 }
 
-//InsertSlice 批量保存Struct Slice 数组对象,必须是[]IEntityStruct类型,使用IEntityStruct接口,兼容Struct实体类
-//如果是自增主键,无法对Struct对象里的主键属性赋值
-//ctx不能为nil,参照使用zorm.Transaction方法传入ctx.也不要自己构建DBConnection
-//affected影响的行数,如果异常或者驱动不支持,返回-1
+// InsertSlice 批量保存Struct Slice 数组对象,必须是[]IEntityStruct类型,使用IEntityStruct接口,兼容Struct实体类
+// 如果是自增主键,无法对Struct对象里的主键属性赋值
+// ctx不能为nil,参照使用zorm.Transaction方法传入ctx.也不要自己构建DBConnection
+// affected影响的行数,如果异常或者驱动不支持,返回-1
 func InsertSlice(ctx context.Context, entityStructSlice []IEntityStruct) (int, error) {
 	return insertSlice(ctx, entityStructSlice)
 }
@@ -1313,8 +1313,8 @@ var insertSlice = func(ctx context.Context, entityStructSlice []IEntityStruct) (
 
 }
 
-//Update 更新struct所有属性,必须是IEntityStruct类型
-//ctx不能为nil,参照使用zorm.Transaction方法传入ctx.也不要自己构建DBConnection
+// Update 更新struct所有属性,必须是IEntityStruct类型
+// ctx不能为nil,参照使用zorm.Transaction方法传入ctx.也不要自己构建DBConnection
 func Update(ctx context.Context, entity IEntityStruct) (int, error) {
 	return update(ctx, entity)
 }
@@ -1329,8 +1329,8 @@ var update = func(ctx context.Context, entity IEntityStruct) (int, error) {
 	return UpdateFinder(ctx, finder)
 }
 
-//UpdateNotZeroValue 更新struct不为默认零值的属性,必须是IEntityStruct类型,主键必须有值
-//ctx不能为nil,参照使用zorm.Transaction方法传入ctx.也不要自己构建DBConnection
+// UpdateNotZeroValue 更新struct不为默认零值的属性,必须是IEntityStruct类型,主键必须有值
+// ctx不能为nil,参照使用zorm.Transaction方法传入ctx.也不要自己构建DBConnection
 func UpdateNotZeroValue(ctx context.Context, entity IEntityStruct) (int, error) {
 	return updateNotZeroValue(ctx, entity)
 }
@@ -1345,9 +1345,9 @@ var updateNotZeroValue = func(ctx context.Context, entity IEntityStruct) (int, e
 	return UpdateFinder(ctx, finder)
 }
 
-//Delete 根据主键删除一个对象.必须是IEntityStruct类型
-//ctx不能为nil,参照使用zorm.Transaction方法传入ctx.也不要自己构建DBConnection
-//affected影响的行数,如果异常或者驱动不支持,返回-1
+// Delete 根据主键删除一个对象.必须是IEntityStruct类型
+// ctx不能为nil,参照使用zorm.Transaction方法传入ctx.也不要自己构建DBConnection
+// affected影响的行数,如果异常或者驱动不支持,返回-1
 func Delete(ctx context.Context, entity IEntityStruct) (int, error) {
 	return delete(ctx, entity)
 }
@@ -1415,9 +1415,9 @@ var delete = func(ctx context.Context, entity IEntityStruct) (int, error) {
 
 }
 
-//InsertEntityMap 保存*IEntityMap对象.使用Map保存数据,用于不方便使用struct的场景,如果主键是自增或者序列,不要entityMap.Set主键的值
-//ctx不能为nil,参照使用zorm.Transaction方法传入ctx.也不要自己构建DBConnection
-//affected影响的行数,如果异常或者驱动不支持,返回-1
+// InsertEntityMap 保存*IEntityMap对象.使用Map保存数据,用于不方便使用struct的场景,如果主键是自增或者序列,不要entityMap.Set主键的值
+// ctx不能为nil,参照使用zorm.Transaction方法传入ctx.也不要自己构建DBConnection
+// affected影响的行数,如果异常或者驱动不支持,返回-1
 func InsertEntityMap(ctx context.Context, entity IEntityMap) (int, error) {
 	return insertEntityMap(ctx, entity)
 }
@@ -1563,7 +1563,7 @@ var updateEntityMap = func(ctx context.Context, entity IEntityMap) (int, error) 
 
 }
 
-//IsInTransaction 检查ctx是否包含事务
+// IsInTransaction 检查ctx是否包含事务
 func IsInTransaction(ctx context.Context) (bool, error) {
 	dbConnection, err := getDBConnectionFromContext(ctx)
 	if err != nil {
@@ -1736,8 +1736,8 @@ func getDBConnectionFromContext(ctx context.Context) (*dataBaseConnection, error
 
 }
 
-//变量名建议errFoo这样的驼峰
-//The variable name suggests a hump like "errFoo"
+// 变量名建议errFoo这样的驼峰
+// The variable name suggests a hump like "errFoo"
 var errDBConnection = errors.New("更新操作需要使用zorm.Transaction开启事务.读取操作如果ctx没有dbConnection,使用FuncReadWriteStrategy(ctx,rwType).newDBConnection(),如果dbConnection有事务,就使用事务查询")
 
 // checkDBConnection 检查dbConnection.有可能会创建dbConnection或者开启事务,所以要尽可能的接近执行时检查
@@ -1846,7 +1846,7 @@ func wrapExecUpdateValuesAffected(ctx context.Context, affected *int, sqlstrptr 
 	return res, errAffected
 }
 
-//contextSQLHintValueKey 把sql hint放到context里使用的key
+// contextSQLHintValueKey 把sql hint放到context里使用的key
 const contextSQLHintValueKey = wrapContextStringKey("contextSQLHintValueKey")
 
 // BindContextSQLHint context中绑定sql的hint,使用这个Context的方法都会传播hint传播的语句
@@ -1863,7 +1863,7 @@ func BindContextSQLHint(parent context.Context, hint string) (context.Context, e
 	return ctx, nil
 }
 
-//contextEnableGlobalTransactionValueKey 是否使用分布式事务放到context里使用的key
+// contextEnableGlobalTransactionValueKey 是否使用分布式事务放到context里使用的key
 const contextEnableGlobalTransactionValueKey = wrapContextStringKey("contextEnableGlobalTransactionValueKey")
 
 // BindContextEnableGlobalTransaction context启用分布式事务,不再自动设置,必须手动启用分布式事务,必须放到本地事务开启之前调用
@@ -1875,7 +1875,7 @@ func BindContextEnableGlobalTransaction(parent context.Context) (context.Context
 	return ctx, nil
 }
 
-//contextDisableTransactionValueKey 是否禁用事务放到context里使用的key
+// contextDisableTransactionValueKey 是否禁用事务放到context里使用的key
 const contextDisableTransactionValueKey = wrapContextStringKey("contextDisableTransactionValueKey")
 
 // BindContextDisableTransaction  context禁用事务,必须放到事务开启之前调用.用在不使用事务更新数据库的场景,强烈建议不要使用这个方法,更新数据库必须有事务!!!
@@ -1887,7 +1887,7 @@ func BindContextDisableTransaction(parent context.Context) (context.Context, err
 	return ctx, nil
 }
 
-//getContextBoolValue 从ctx中获取key的bool值,ctx如果没有值使用defaultValue
+// getContextBoolValue 从ctx中获取key的bool值,ctx如果没有值使用defaultValue
 func getContextBoolValue(ctx context.Context, key wrapContextStringKey, defaultValue bool) bool {
 	boolValue := false
 	ctxBoolValue := ctx.Value(key)
